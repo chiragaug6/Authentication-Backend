@@ -1,0 +1,25 @@
+{
+  "name": "full-stack-authentication-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chirag-Solanki6804/Full-Stack-Authentication-System.git"
+  },
+  "keywords": [
+    "reactjs",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "chirag solanki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chirag-Solanki6804/Full-Stack-Authentication-System/issues"
+  },
+  "homepage": "https://github.com/Chirag-Solanki6804/Full-Stack-Authentication-System#readme"
+}
