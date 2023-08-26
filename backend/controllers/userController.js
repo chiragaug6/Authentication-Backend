@@ -1,3 +1,5 @@
+import User from "../models/userModel.js";
+
 // @desc    Auth user or set token
 // @route   POST => /api/users/auth
 // @access  Public
@@ -8,8 +10,8 @@ const authUser = (req, res) => {
 // @desc    Register a new user
 // @route   POST => /api/users
 // @access  Public
-const registerUser = (req, res) => {
-  res.status(200).json({ message: "Register User" });
+const registerUser = async (req, res) => {
+  res.status(200).json({ message: "register user" });
 };
 
 // @desc    logout a user

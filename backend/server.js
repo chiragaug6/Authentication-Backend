@@ -1,14 +1,21 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import userRoutes from "./routes/userRoutes.js";
 import { NotFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 const PORT = process.env.PORT || 5000;
+import connectToDB from "./config/db.js";
+
+connectToDB();
 
 const app = express();
 
-//Middleares
+// Middleares
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/api/users", userRoutes);
 app.use(NotFound);
 app.use(errorHandler);
