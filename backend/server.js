@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import userRoutes from "./routes/userRoutes.js";
 import { NotFound, errorHandler } from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT || 5000;
 import connectToDB from "./config/db.js";
@@ -11,10 +12,11 @@ connectToDB();
 
 const app = express();
 
-// Middleares
+// Middlweares
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 app.use(NotFound);
