@@ -23,24 +23,22 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+//************************************************************************************************* */
+
 // @desc    Register a new user
 // @route   POST => /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  // const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  const userExits = await User.findOne({ email: req.body.email });
+  const userExits = await User.findOne({ email });
 
   if (userExits) {
     res.status(400);
     throw new Error("User already exits");
   }
 
-  const user = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
+  const user = await User.create({ name, email, password });
 
   if (user) {
     generateToken(res, user._id);
@@ -55,6 +53,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+//****************************************************************************************************** */
+
 // @desc    logout a user
 // @route   POST => /api/users/logout
 // @access  Public
@@ -67,24 +67,40 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User logged out" });
 });
 
+//******************************************************************************************************
+
 // @desc    Get user profile
 // @route   POST => /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = {
-    _id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-  };
+  const user = await User.findById(req.user._id);
 
-  res.status(200).json(user);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
 });
+
+//*************************************************************************************************** */
 
 // @desc    update user profile
 // @route   PUT => /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne(req.user._id);
+  const user = await User.findById(req.user._id);
+
+  // Check if the new email is already in use
+  const existingUserWithEmail = await User.findOne({ email: req.body.email });
+
+  if (existingUserWithEmail) {
+    return res.status(400).json({ message: "Email already in use" });
+  }
 
   if (user) {
     user.name = req.body.name || user.name;
